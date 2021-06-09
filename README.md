@@ -17,7 +17,7 @@ _Note: To see a [failure scenariorio](https://github.com/firebase/firebase-tools
 
 * `NUM_RECORDS=10000000 GCLOUD_PROJECT=fake-project-id FIRESTORE_EMULATOR_HOST=localhost:8080 go run demo.go`
 
-_Note: To see a [failure scenario](), note the write time for batches predictably decrease over time with a large `NUM_RECORDS` value.
+_Note: To see a [failure scenario](https://github.com/firebase/firebase-tools/issues/3477), note the write time for batches predictably decrease over time with a large `NUM_RECORDS` value.
 
 ## Info
 
