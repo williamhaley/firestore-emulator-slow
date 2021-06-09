@@ -1,3 +1,6 @@
+# Emulator storage
+emulator-data
+
 # Logs
 logs
 *.log
