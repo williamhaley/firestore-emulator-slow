@@ -24,3 +24,8 @@
      % firebase setup:emulators:firestore
     i  firestore: downloading cloud-firestore-emulator-v1.12.0.jar...
     ```
+
+# GitHub Issue
+
+https://github.com/firebase/firebase-tools/issues/3475
+
