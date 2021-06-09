@@ -1,0 +1,7 @@
+{
+  "name": "firestore-emulator-slow",
+  "dependencies": {
+    "firebase-admin": "^9.9.0",
+    "firebase-tools": "^9.12.1"
+  }
+}
