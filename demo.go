@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
+	"strconv"
+	"time"
 
 	"cloud.google.com/go/firestore"
 )
@@ -14,11 +17,46 @@ func main() {
 		panic(err)
 	}
 
-	result, err := client.Collection("mycollection").Doc("myid").Create(context.TODO(), map[string]interface{}{
+	max, _ := strconv.Atoi(os.Getenv("NUM_RECORDS"))
+	if max < 1 {
+		max = 1
+	}
+
+	if max > 1 {
+		batchWrite(client, max)
+		return
+	}
+
+	result, err := client.Collection("users").Doc("alovelace").Set(context.TODO(), map[string]interface{}{
 		"mykey": "my data",
 	})
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("done", result)
+	fmt.Println("done writing", result)
+}
+
+func batchWrite(client *firestore.Client, max int) {
+	total := 0.0
+	batchSize := 500
+	batch := client.Batch()
+
+	for i := 1; i <= max; i++ {
+		batch.Set(client.Collection("users").Doc(fmt.Sprint(i)), map[string]interface{}{
+			"mykey": "my data",
+			"myid":  i,
+		})
+
+		if i%batchSize == 0 {
+			start := time.Now()
+			results, err := batch.Commit(context.TODO())
+			if err != nil {
+				panic(err)
+			}
+			total += float64(time.Since(start).Seconds())
+			rate := float64(batchSize) / total
+			fmt.Printf("done writing [%d-%d] %d result(s) [rate: %f/s]\n", i-batchSize, i, len(results), rate)
+			batch = client.Batch()
+		}
+	}
 }

@@ -13,5 +13,8 @@ const db = admin.firestore();
     born: 1815
   });
 
-  console.log('done', result);
+  console.log('write done', result);
+
+  const snap = await docRef.get();
+  console.log('read done', snap.data());
 })();
