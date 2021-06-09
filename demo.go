@@ -37,7 +37,6 @@ func main() {
 }
 
 func batchWrite(client *firestore.Client, max int) {
-	total := 0.0
 	batchSize := 500
 	batch := client.Batch()
 
@@ -53,8 +52,8 @@ func batchWrite(client *firestore.Client, max int) {
 			if err != nil {
 				panic(err)
 			}
-			total += float64(time.Since(start).Seconds())
-			rate := float64(batchSize) / total
+			timeElapsed := float64(time.Since(start).Seconds())
+			rate := float64(batchSize) / timeElapsed
 			fmt.Printf("done writing [%d-%d] %d result(s) [rate: %f/s]\n", i-batchSize, i, len(results), rate)
 			batch = client.Batch()
 		}
